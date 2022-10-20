@@ -99,6 +99,9 @@ def main():
                 elif response.lower() in ["skip", "s", "next", "n"]:
                     correct = False
                     continue
+                elif response == ":(":
+                    print(":c")
+                    continue
                 try:
                     response = int(response)
                 except ValueError:
