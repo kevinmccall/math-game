@@ -1,9 +1,10 @@
-from random import randint
 import time
+from random import randint
 
 DEFAULT_MIN = 0
 DEFAULT_MAX = 100
 DEFAULT_TIME_SECONDS = 30
+
 
 class Problem:
     def __init__(self, a, b):
@@ -20,6 +21,7 @@ class Problem:
     def get_problem(self):
         return f"{self.a} {self.operator} {self.b} = ?"
 
+
 class AdditionProblem(Problem):
     def __init__(self, a, b):
         super().__init__(a, b)
@@ -27,6 +29,7 @@ class AdditionProblem(Problem):
 
     def _get_result(self):
         return self.a + self.b
+
 
 class SubtractionProblem(Problem):
     def __init__(self, a, b):
@@ -36,13 +39,15 @@ class SubtractionProblem(Problem):
     def _get_result(self):
         return self.a - self.b
 
+
 class MultiplicationProblem(Problem):
     def __init__(self, a, b):
-        super().__init__(a,b)
+        super().__init__(a, b)
         self.operator = "*"
 
     def _get_result(self):
         return self.a * self.b
+
 
 class DivisionProblem(Problem):
     def __init__(self, a, b):
@@ -56,22 +61,23 @@ class DivisionProblem(Problem):
     def _get_result(self):
         return self.a // self.b
 
+
 def generate_problem(low, high):
-    problem_type = randint(0,3)
+    problem_type = randint(0, 3)
     problem = None
     match problem_type:
         case 0:
             a = randint(low, high)
             b = randint(low, high)
-            problem = AdditionProblem(a,b)
+            problem = AdditionProblem(a, b)
         case 1:
             a = randint(low, high)
             b = randint(low, high)
-            problem = SubtractionProblem(a,b)
+            problem = SubtractionProblem(a, b)
         case 2:
             a = randint(low, high)
             b = randint(low, high)
-            problem = MultiplicationProblem(a,b)
+            problem = MultiplicationProblem(a, b)
         case 3:
             b = randint(low, high)
             while b == 0:
@@ -80,17 +86,21 @@ def generate_problem(low, high):
             problem = DivisionProblem(a, b)
     return problem
 
+
 def main():
     playing = True
     score = 0
     start_time = time.time()
     while playing:
         problem = generate_problem(DEFAULT_MIN, DEFAULT_MAX)
-        print(problem.get_problem(), f"{round(DEFAULT_TIME_SECONDS - (time.time() - start_time), 1)} seconds remaining")
+        print(
+            problem.get_problem(),
+            f"{round(DEFAULT_TIME_SECONDS - (time.time() - start_time), 1)} seconds remaining",
+        )
         tries = 1
         correct = False
         try:
-            while playing and not correct and tries >= 0: 
+            while playing and not correct and tries >= 0:
                 response = input("-> ")
                 if response.lower() in ["q", "quit", "exit", "stop"]:
                     print("bye bye")
@@ -119,16 +129,17 @@ def main():
                     else:
                         print(f"The answer was {problem._get_result()}")
                     tries -= 1
-                
+
             if time.time() - start_time > DEFAULT_TIME_SECONDS:
                 playing = False
                 print("out of time!")
-            
+
         except KeyboardInterrupt:
             print()
             print("bye byeeeee")
             playing = False
     print(f"score: {score}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
