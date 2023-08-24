@@ -15,17 +15,32 @@ class Game:
         self.num_tries = num_tries
 
     def play(self):
-        print(f"Number of tries: {self.num_tries}")
+        self.game_start_message()
         problem: Problem
         for problem_num, problem in enumerate(self.problem_bank, start=1):
-            print(f"Score: {self.score}")
-            print(f"({problem_num}) {problem.prompt}")
+            self.new_question_message(problem, problem_num)
             for _ in range(self.num_tries):
                 guess = self.input.make_guess()
                 if guess == problem.answer:
-                    print("Correct answer!")
+                    self.correct_answer()
                     self.score += 1
                     break
             else:
-                print(f"Wrong! The correct answer was {problem.answer}")
+                self.incorrect_answer(problem)
+        self.game_completed_message()
+
+    def game_completed_message(self):
         print(f"Final Score: {self.score}")
+
+    def incorrect_answer(self, problem):
+        print(f"Wrong! The correct answer was {problem.answer}")
+
+    def correct_answer(self):
+        print("Correct answer!")
+
+    def new_question_message(self, problem, problem_num):
+        print(f"Score: {self.score}")
+        print(f"({problem_num}) {problem.prompt}")
+
+    def game_start_message(self):
+        print(f"Number of tries: {self.num_tries}")

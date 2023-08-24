@@ -1,6 +1,8 @@
 from math_game2 import Game
 
-from problem_bank import TimedBank, AdditionBank
+from problem_bank import TimedBank
+
+from generators import *
 
 from game_input import PlayerInput
 
@@ -28,11 +30,16 @@ def main():
     #     factorial_problem(8),
     #     factorial_problem(9),
     # ]
-    generators = []
+    generators = [
+        AdditionGenerator(2, 100, 2, 100),
+        SubtractionGenerator(2, 100, 2, 100),
+        MultiplicationGenerator(2, 12, 2, 100),
+        DivisionGenerator(2, 12, 2, 100),
+    ]
     # bank = ProblemBank(problems)
     # bank = RandomBank(problems)
     # bank = TimedBank(problems, 10)
-    bank = AdditionBank(0, 100, 10)
+    bank = ProblemFactory(generators, 5)
     game = Game(PlayerInput(), bank, 3)
     game.play()
 

@@ -71,3 +71,37 @@ class AdditionBank:
         ans = a + b
 
         return Problem(prompt, ans)
+
+
+class CountProblemFactory:
+    def __init__(self, generators, num_questions) -> None:
+        self.generators = generators
+        self.num_questions = num_questions
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.num_questions <= 0:
+            raise StopIteration()
+        self.num_questions -= 1
+        generator = choice(self.generators)
+        return generator()
+
+
+class TimedProblemFactory:
+    def __init__(self, generators, time_to_guess) -> None:
+        self.generators = generators
+        self.start_time = None
+        self.time_to_guess = time_to_guess
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.start_time is None:
+            self.start_time = time()
+        elif time() - self.start_time > self.time_to_guess:
+            raise StopIteration()
+        generator = choice(self.generators)
+        return generator()
