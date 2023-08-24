@@ -1,6 +1,6 @@
-from dataclasses import dataclass
-from time import time
-from abc import ABC, abstractmethod
+from sys import exit
+from problem import Problem
+from game_input import GameInput
 
 
 class InvalidStateException(Exception):
@@ -17,70 +17,15 @@ class Game:
     def play(self):
         print(f"Number of tries: {self.num_tries}")
         problem: Problem
-        for problem in self.problem_bank:
+        for problem_num, problem in enumerate(self.problem_bank, start=1):
             print(f"Score: {self.score}")
-            print(problem.problem)
+            print(f"({problem_num}) {problem.prompt}")
             for _ in range(self.num_tries):
                 guess = self.input.make_guess()
                 if guess == problem.answer:
-                    print("Correct Answer!")
+                    print("Correct answer!")
                     self.score += 1
                     break
+            else:
+                print(f"Wrong! The correct answer was {problem.answer}")
         print(f"Final Score: {self.score}")
-
-    # def next_problem(self):
-    #     try:
-    #         self.problem = next(self.problem_bank)
-    #     except StopIteration:
-    #         self.problem = None
-
-
-class GameInput(ABC):
-    @abstractmethod
-    def make_guess(self):
-        pass
-
-
-class PlayerInput(GameInput):
-    def make_guess(self):
-        inp = input("> ")
-        try:
-            inp = int(inp)
-        except TypeError:
-            pass
-        return inp
-
-
-class ProblemBank:
-    def __init__(self, problems) -> None:
-        self.problems = problems
-
-    def __iter__(self):
-        return iter(self.problems)
-
-    def __next__(self):
-        return next(iter(self.problems))
-
-
-@dataclass
-class Problem:
-    problem: str
-    answer: int | str
-
-
-if __name__ == "__main__":
-    # p = ProblemBank([1, 2, 3])
-    # for prob in p:
-    #     print(prob)
-
-    # p = ProblemBank([1, 2, 3])
-    # print(next(p))
-    # print(next(p))
-    # print(next(p))
-    # for prob in p:
-    #     print(prob)
-
-    p1 = Problem("what is 5!", 120)
-    problems = [p1]
-    game = Game(PlayerInput(), [p1], 3)
-    game.play()
