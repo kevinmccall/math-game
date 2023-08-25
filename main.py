@@ -1,10 +1,14 @@
 from math_game2 import Game
 
-from problem_bank import TimedBank
+from problem_bank import TimedBank, CountProblemFactory, TimedProblemFactory
 
 from generators import *
 
 from game_input import PlayerInput
+
+from game_display import ConsoleDisplay
+
+from sys import exit
 
 
 def main():
@@ -39,8 +43,10 @@ def main():
     # bank = ProblemBank(problems)
     # bank = RandomBank(problems)
     # bank = TimedBank(problems, 10)
-    bank = ProblemFactory(generators, 5)
-    game = Game(PlayerInput(), bank, 3)
+    # bank = CountProblemFactory(generators, 5)
+    bank = TimedProblemFactory(generators, 10)
+    display = ConsoleDisplay()
+    game = Game(PlayerInput(), bank, display, 3)
     game.play()
 
 

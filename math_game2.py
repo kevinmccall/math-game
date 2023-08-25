@@ -1,6 +1,7 @@
 from sys import exit
 from problem import Problem
-from game_input import GameInput
+from game_input import Input
+from game_display import Display
 
 
 class InvalidStateException(Exception):
@@ -8,11 +9,12 @@ class InvalidStateException(Exception):
 
 
 class Game:
-    def __init__(self, inp, problem_bank, num_tries) -> None:
-        self.input: GameInput = inp
+    def __init__(self, inp: Input, problem_bank, display: Display, num_tries) -> None:
+        self.input = inp
         self.problem_bank = problem_bank
         self.score = 0
         self.num_tries = num_tries
+        self.display = display
 
     def play(self):
         self.game_start_message()
@@ -30,17 +32,17 @@ class Game:
         self.game_completed_message()
 
     def game_completed_message(self):
-        print(f"Final Score: {self.score}")
+        self.display.display_message(f"Final Score: {self.score}")
 
     def incorrect_answer(self, problem):
-        print(f"Wrong! The correct answer was {problem.answer}")
+        self.display.display_message(f"Wrong! The correct answer was {problem.answer}")
 
     def correct_answer(self):
-        print("Correct answer!")
+        self.display.display_message("Correct answer!")
 
     def new_question_message(self, problem, problem_num):
-        print(f"Score: {self.score}")
-        print(f"({problem_num}) {problem.prompt}")
+        self.display.display_message(f"Score: {self.score}")
+        self.display.display_message(f"({problem_num}) {problem.prompt}")
 
     def game_start_message(self):
-        print(f"Number of tries: {self.num_tries}")
+        self.display.display_message(f"Number of tries: {self.num_tries}")

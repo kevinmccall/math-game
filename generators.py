@@ -64,6 +64,17 @@ class DivisionGenerator:
         return Problem(prompt, b)
 
 
+class FactorialGenerator:
+    def __init__(self, a_min, a_max) -> None:
+        self.a_min = a_min
+        self.a_max = a_max
+
+    def __call__(self):
+        a = randint(self.a_min, self.a_max)
+        prompt = f"{a}! = ?"
+        return Problem(prompt, factorial(a))
+
+
 class OperatorGenerator:
     def __init__(self, min_num, max_num, operation, symbol) -> None:
         self.max_num = max_num

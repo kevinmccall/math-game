@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
 
-class GameInput(ABC):
+class Input(ABC):
     @abstractmethod
     def make_guess(self):
         pass
 
 
-class PlayerInput(GameInput):
+class PlayerInput(Input):
     def make_guess(self):
         inp = input("> ")
         try:
